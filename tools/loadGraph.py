@@ -10,19 +10,19 @@ import tools.utils as utils
 def loadGraph(root, name, setting, seed, device, verbose=True):
     data = Dataset(root, name, setting, seed)
 
-    adj = torch.LongTensor(data.adj.todense()).to(device)
-    adj = utils.make_symmetric(adj).to(device)
-    labels = torch.LongTensor(data.labels).to(device)
-    features = torch.FloatTensor(np.array(data.features.todense())).to(device)
+    adj = torch.LongTensor(data.adj.todense())
+    adj = utils.make_symmetric(adj)
+    labels = torch.LongTensor(data.labels)
+    features = torch.FloatTensor(np.array(data.features.todense()))
 
     def indices_to_bool(indices, length):
         arr = torch.zeros(length)
         arr[indices] = 1
         return arr > 0
 
-    idx_train = utils.idx_to_bool(data.idx_train, features.shape[0]).to(device)
-    idx_val = utils.idx_to_bool(data.idx_val, features.shape[0]).to(device)
-    idx_test = utils.idx_to_bool(data.idx_test, features.shape[0]).to(device)
+    idx_train = utils.idx_to_bool(data.idx_train, features.shape[0])
+    idx_val = utils.idx_to_bool(data.idx_val, features.shape[0])
+    idx_test = utils.idx_to_bool(data.idx_test, features.shape[0])
 
     if verbose:
         print()
